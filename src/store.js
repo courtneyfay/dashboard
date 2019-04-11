@@ -17,10 +17,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    requestMortalityData({ commit }, region) {
-      //TODO: remove this when dropdown is added with options
-      region = "TEA";
+    requestMortalityData({ commit }, region = "TEA") {
       const url = `${baseUrl}/health/mortality/${region}`;
+
       axios
         .get(url)
         .then(response => {

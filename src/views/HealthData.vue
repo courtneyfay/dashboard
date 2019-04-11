@@ -13,7 +13,7 @@ export default {
     MortalityTable
   },
   beforeMount() {
-    this.$store.dispatch("requestMortalityData");
+    this.$store.dispatch("requestMortalityData", "TEA");
   }
 };
 </script>
