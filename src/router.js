@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Page1 from "./views/Page1.vue";
+import HealthData from "./views/HealthData.vue";
 
 Vue.use(Router);
 
@@ -8,26 +8,26 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "page1",
-      component: Page1
+      name: "HealthData",
+      component: HealthData
     },
     {
-      path: "/2",
-      name: "Page2",
+      path: "/education",
+      name: "EducationData",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Page2.vue")
+        import(/* webpackChunkName: "about" */ "./views/EducationData.vue")
     },
     {
-      path: "/3",
-      name: "Page3",
+      path: "/economics",
+      name: "EconomicData",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Page3.vue")
+        import(/* webpackChunkName: "about" */ "./views/EconomicData.vue")
     }
   ]
 });

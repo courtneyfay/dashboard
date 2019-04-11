@@ -1,9 +1,10 @@
 <template>
   <div id="app">
+    <h1>World Health Organization</h1>
     <div id="nav">
-      <router-link to="/">Page 1</router-link>|
-      <router-link to="/2">Page 2</router-link>|
-      <router-link to="/3">Page 3</router-link>
+      <router-link to="/">Health Data</router-link>|
+      <router-link to="/education">Education Data</router-link>|
+      <router-link to="/economics">Economic Data</router-link>
     </div>
     <router-view />
   </div>
