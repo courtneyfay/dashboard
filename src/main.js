@@ -2,8 +2,18 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import formats from "./formats";
 
 Vue.config.productionTip = false;
+
+const formatsPlugin = {
+  install() {
+    Vue.helpers = formats;
+    Vue.prototype.$formats = formats;
+  }
+};
+
+Vue.use(formatsPlugin);
 
 new Vue({
   router,

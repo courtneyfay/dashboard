@@ -1,6 +1,20 @@
 .left {
-  float: left;
+  justify-content: flex-start;
 }
 .right {
-  float: right;
+  justify-content: flex-end;
+}
+.row {
+  /* background-color: lightcoral; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.column {
+  /* background-color: yellow; */
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
 }

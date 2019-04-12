@@ -11,6 +11,8 @@
 </template>
 
 <style lang="scss">
+@import "./assets/global-styles.css";
+
 #app {
   text-align: center;
 }
