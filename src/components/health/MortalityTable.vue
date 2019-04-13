@@ -5,12 +5,7 @@
       <div class="column">
         <div class="row">
           <span class="column">Regions:</span>
-          <dropdown
-            class="column"
-            :options="regions"
-            :value="'TEA'"
-            @update="updateRegion"
-          />
+          <dropdown class="column" :options="regions" :value="'TEA'" @update="updateRegion"/>
         </div>
       </div>
     </div>
@@ -20,35 +15,32 @@
         <th class="flag"></th>
         <th @click="sortData(COUNTRY)" class="country">
           Country
-          <sort-arrows v-if="sortBy === COUNTRY" :ascending="ascending" />
+          <sort-arrows v-if="sortBy === COUNTRY" :ascending="ascending"/>
         </th>
         <th @click="sortData(LIFE_EXPECTANCY)" class="number-data">
           Life Expectancy at birth
-          <sort-arrows
-            v-if="sortBy === LIFE_EXPECTANCY"
-            :ascending="ascending"
-          />
+          <sort-arrows v-if="sortBy === LIFE_EXPECTANCY" :ascending="ascending"/>
         </th>
         <th class="life-expectancy"></th>
         <th @click="sortData(DISEASE)" class="number-data">
           Mortality from CVD, Cancer, Diabetes or CRD
-          <sort-arrows v-if="sortBy === DISEASE" :ascending="ascending" />
+          <sort-arrows v-if="sortBy === DISEASE" :ascending="ascending"/>
         </th>
         <th @click="sortData(AIR_POLLUTION)" class="number-data">
           Mortality from Air Pollution
-          <sort-arrows v-if="sortBy === AIR_POLLUTION" :ascending="ascending" />
+          <sort-arrows v-if="sortBy === AIR_POLLUTION" :ascending="ascending"/>
         </th>
         <th @click="sortData(HYGIENE)" class="number-data">
           Mortality from Unsafe Water, Sanitation, and Lack of Hygiene
-          <sort-arrows v-if="sortBy === HYGIENE" :ascending="ascending" />
+          <sort-arrows v-if="sortBy === HYGIENE" :ascending="ascending"/>
         </th>
         <th @click="sortData(POISON)" class="number-data">
           Mortality from Poisoning
-          <sort-arrows v-if="sortBy === POISON" :ascending="ascending" />
+          <sort-arrows v-if="sortBy === POISON" :ascending="ascending"/>
         </th>
         <th @click="sortData(SUICIDE)" class="number-data">
           Mortality from Suicide
-          <sort-arrows v-if="sortBy === SUICIDE" :ascending="ascending" />
+          <sort-arrows v-if="sortBy === SUICIDE" :ascending="ascending"/>
         </th>
       </tr>
       <tr class="sub-headers">
@@ -68,16 +60,14 @@
             v-if="countryKey(key)"
             :src="`https://www.countryflags.io/${countryKey(key)}/flat/32.png`"
             :alt="country.name"
-          />
+          >
         </td>
         <td>{{ country.name }}</td>
-        <td class="indent">
-          {{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}
-        </td>
+        <td class="indent">{{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}</td>
         <td class="indent">NO GRAPH AVAILABLE</td>
         <td class="indent">
           <div v-if="country.disease">
-            <pie-chart :percentages="calcPiePercentages(country.disease)" />
+            <pie-chart :percentages="calcPiePercentages(country.disease)"/>
             <span>{{ $formats.addPercent(country.disease) }}</span>
           </div>
           <div v-else>--</div>
@@ -92,9 +82,9 @@
 </template>
 
 <script>
-import Dropdown from "../components/reusable/SingleSelectDropdown";
-import PieChart from "../components/reusable/PieChart";
-import SortArrows from "../components/reusable/SortArrows";
+import Dropdown from "../reusable/SingleSelectDropdown";
+import PieChart from "../reusable/PieChart";
+import SortArrows from "../reusable/SortArrows";
 import orderBy from "lodash.orderby";
 import flagMap from "../../maps";
 
