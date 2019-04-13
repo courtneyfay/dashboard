@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import MortalityTable from "../components/MortalityTable";
+import MortalityTable from "../components/health/MortalityTable";
 
 export default {
   components: {
