@@ -5,11 +5,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "chart.js": "^2.8.0",
+    "express": "^4.16.4",
     "lodash.orderby": "^4.6.0",
     "vue": "^2.6.6",
     "vue-chartkick": "^0.5.0",
