@@ -219,6 +219,17 @@ const flagMap = {
   ZWE: "ZW"
 };
 
+const regions = {
+  TEA: "East Asia & Pacific",
+  TEC: "Europe & Central Asia",
+  TLA: "Latin America & Caribbean",
+  TMN: "Middle East & North Africa",
+  TSA: "South Asia",
+  TSS: "Sub-Saharan Africa",
+  NAC: "North America"
+};
+
 export default {
-  flagMap
+  flagMap,
+  regions
 };
