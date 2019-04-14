@@ -5,7 +5,12 @@
       <div class="column">
         <div class="row">
           <span class="column">Regions:</span>
-          <dropdown class="column" :options="regions" :value="'TEA'" @update="updateRegion"/>
+          <dropdown
+            class="column"
+            :options="regions"
+            :value="'TEA'"
+            @update="updateRegion"
+          />
         </div>
       </div>
     </div>
@@ -15,32 +20,35 @@
         <th class="flag"></th>
         <th @click="sortData(COUNTRY)" class="country">
           Country
-          <sort-arrows v-if="sortBy === COUNTRY" :ascending="ascending"/>
+          <sort-arrows v-if="sortBy === COUNTRY" :ascending="ascending" />
         </th>
         <th @click="sortData(LIFE_EXPECTANCY)" class="number-data">
-          Life Expectancy at birth
-          <sort-arrows v-if="sortBy === LIFE_EXPECTANCY" :ascending="ascending"/>
+          Life Expectancy at Birth
+          <sort-arrows
+            v-if="sortBy === LIFE_EXPECTANCY"
+            :ascending="ascending"
+          />
         </th>
         <th class="life-expectancy"></th>
         <th @click="sortData(DISEASE)" class="number-data">
           Mortality from CVD, Cancer, Diabetes or CRD
-          <sort-arrows v-if="sortBy === DISEASE" :ascending="ascending"/>
+          <sort-arrows v-if="sortBy === DISEASE" :ascending="ascending" />
         </th>
         <th @click="sortData(AIR_POLLUTION)" class="number-data">
           Mortality from Air Pollution
-          <sort-arrows v-if="sortBy === AIR_POLLUTION" :ascending="ascending"/>
+          <sort-arrows v-if="sortBy === AIR_POLLUTION" :ascending="ascending" />
         </th>
         <th @click="sortData(HYGIENE)" class="number-data">
           Mortality from Unsafe Water, Sanitation, and Lack of Hygiene
-          <sort-arrows v-if="sortBy === HYGIENE" :ascending="ascending"/>
+          <sort-arrows v-if="sortBy === HYGIENE" :ascending="ascending" />
         </th>
         <th @click="sortData(POISON)" class="number-data">
           Mortality from Poisoning
-          <sort-arrows v-if="sortBy === POISON" :ascending="ascending"/>
+          <sort-arrows v-if="sortBy === POISON" :ascending="ascending" />
         </th>
         <th @click="sortData(SUICIDE)" class="number-data">
           Mortality from Suicide
-          <sort-arrows v-if="sortBy === SUICIDE" :ascending="ascending"/>
+          <sort-arrows v-if="sortBy === SUICIDE" :ascending="ascending" />
         </th>
       </tr>
       <tr class="sub-headers">
@@ -60,14 +68,22 @@
             v-if="countryKey(key)"
             :src="`https://www.countryflags.io/${countryKey(key)}/flat/32.png`"
             :alt="country.name"
-          >
+          />
         </td>
         <td>{{ country.name }}</td>
-        <td class="indent">{{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}</td>
-        <td class="indent">NO GRAPH AVAILABLE</td>
+        <td class="indent">
+          {{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}
+        </td>
+        <td>
+          <line-graph
+            :values="country.lineChart"
+            :minimum="calcMinimum"
+            :maximum="calcMaximum"
+          />
+        </td>
         <td class="indent">
           <div v-if="country.disease">
-            <pie-chart :percentages="calcPiePercentages(country.disease)"/>
+            <pie-chart :percentages="calcPiePercentages(country.disease)" />
             <span>{{ $formats.addPercent(country.disease) }}</span>
           </div>
           <div v-else>--</div>
@@ -83,14 +99,16 @@
 
 <script>
 import Dropdown from "../reusable/SingleSelectDropdown";
+import maps from "../../maps";
+import LineGraph from "../reusable/LineGraph";
+import orderBy from "lodash.orderby";
 import PieChart from "../reusable/PieChart";
 import SortArrows from "../reusable/SortArrows";
-import orderBy from "lodash.orderby";
-import flagMap from "../../maps";
 
 export default {
   components: {
     Dropdown,
+    LineGraph,
     PieChart,
     SortArrows
   },
@@ -102,7 +120,7 @@ export default {
         TLA: "Latin America & Caribbean",
         TMN: "Middle East & North Africa",
         TSA: "South Asia",
-        TSS: "Sub-saharan Africa",
+        TSS: "Sub-Saharan Africa",
         NAC: "North America"
       },
       COUNTRY: "name",
@@ -117,8 +135,41 @@ export default {
     };
   },
   computed: {
+    calcMinimum() {
+      //get the lowest value to plot the minimum
+      const exactMin = this.valuesArray.reduce((min, num) => {
+        return num < min ? num : min;
+      });
+
+      //round the lowest value down to the nearest 5
+      return Math.floor(exactMin / 5) * 5;
+    },
+    calcMaximum() {
+      //get the highest value to plot the maximum
+      const exactMax = this.valuesArray.reduce((max, num) => {
+        return num > max ? num : max;
+      });
+
+      //round the highest value up to the nearest 5
+      return Math.ceil(exactMax / 5) * 5;
+    },
     countriesData() {
       return this.$store.state.mortalityData;
+    },
+    valuesArray() {
+      //pull the life expectancy values out of the countries' lineChart objects
+      //to calculate minimum and maximum for all charts on the page
+      const array = [];
+      Object.keys(this.countriesData).forEach(country => {
+        const lineChart = this.countriesData[country].lineChart;
+
+        Object.keys(lineChart).forEach(year => {
+          const value = lineChart[year];
+          array.push(value);
+        });
+      });
+
+      return array;
     }
   },
   methods: {
@@ -130,8 +181,7 @@ export default {
       };
     },
     countryKey(key) {
-      //TODO: figure out how to get these from being nested
-      return flagMap.flagMap[key];
+      return maps.flagMap[key];
     },
     sortData(sort) {
       if (this.sortBy === sort) {
