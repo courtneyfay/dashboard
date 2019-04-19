@@ -17,50 +17,63 @@
     <table class="mortality-table">
       <thead>
         <tr class="headers">
-          <th class="flag"></th>
-          <th @click="sortData(COUNTRY)" class="country">
-            COUNTRY
-            <sort-arrows v-if="sortBy === COUNTRY" :ascending="ascending" />
-          </th>
-          <th @click="sortData(LIFE_EXPECTANCY)" class="number-data">
-            LIFE EXPECTANCY
-            <div>(in years)</div>
+          <th class="small-column"></th>
+          <th @click="sortData(COUNTRY)" class="medium-column clickable">
             <sort-arrows
-              v-if="sortBy === LIFE_EXPECTANCY"
               :ascending="ascending"
-            />
+              :sortedBy="sortBy === COUNTRY"
+            />COUNTRY
+          </th>
+          <th @click="sortData(LIFE_EXPECTANCY)" class="large-column clickable">
+            <sort-arrows
+              class="sort-arrows"
+              :ascending="ascending"
+              :sortedBy="sortBy === LIFE_EXPECTANCY"
+            />LIFE EXPECTANCY
+            <div>(in years)</div>
           </th>
           <th class="life-expectancy">
             LIFE EXPECTANCY
             <div>(1960 - 2016)</div>
           </th>
-          <th @click="sortData(DISEASE)" class="number-data">
-            CVD, CANCER, DIABETES, CRD
-            <div>(%)</div>
-            <sort-arrows v-if="sortBy === DISEASE" :ascending="ascending" />
-          </th>
-          <th @click="sortData(AIR_POLLUTION)" class="number-data">
-            AIR POLLUTION
-            <div>(per 100,000)</div>
+          <th @click="sortData(DISEASE)" class="large-column clickable">
             <sort-arrows
-              v-if="sortBy === AIR_POLLUTION"
+              class="sort-arrows"
               :ascending="ascending"
-            />
+              :sortedBy="sortBy === DISEASE"
+            />CVD, CANCER, DIABETES, CRD
           </th>
-          <th @click="sortData(HYGIENE)" class="number-data">
-            SANITATION
+          <th @click="sortData(AIR_POLLUTION)" class="large-column clickable">
+            <sort-arrows
+              class="sort-arrows"
+              :ascending="ascending"
+              :sortedBy="sortBy === AIR_POLLUTION"
+            />AIR POLLUTION
             <div>(per 100,000)</div>
-            <sort-arrows v-if="sortBy === HYGIENE" :ascending="ascending" />
           </th>
-          <th @click="sortData(POISON)" class="number-data">
-            POISONING
+          <th @click="sortData(HYGIENE)" class="medium-column clickable">
+            <sort-arrows
+              class="sort-arrows"
+              :ascending="ascending"
+              :sortedBy="sortBy === HYGIENE"
+            />SANITATION
             <div>(per 100,000)</div>
-            <sort-arrows v-if="sortBy === POISON" :ascending="ascending" />
           </th>
-          <th @click="sortData(SUICIDE)" class="number-data">
-            SUICIDE
+          <th @click="sortData(POISON)" class="medium-column clickable">
+            <sort-arrows
+              class="sort-arrows"
+              :ascending="ascending"
+              :sortedBy="sortBy === POISON"
+            />POISONING
             <div>(per 100,000)</div>
-            <sort-arrows v-if="sortBy === SUICIDE" :ascending="ascending" />
+          </th>
+          <th @click="sortData(SUICIDE)" class="medium-column clickable">
+            <sort-arrows
+              class="sort-arrows"
+              :ascending="ascending"
+              :sortedBy="sortBy === SUICIDE"
+            />SUICIDE
+            <div>(per 100,000)</div>
           </th>
         </tr>
       </thead>
@@ -89,8 +102,8 @@
           <td>
             <line-graph
               :values="country.lineChart"
-              :minimum="calcMinimum"
-              :maximum="calcMaximum"
+              :minimum="calcMinimum(country.lineChart)"
+              :maximum="calcMaximum(country.lineChart)"
             />
           </td>
           <td class="indent">
@@ -142,41 +155,8 @@ export default {
     };
   },
   computed: {
-    calcMinimum() {
-      //get the lowest value to plot the minimum
-      const exactMin = this.valuesArray.reduce((min, num) => {
-        return num < min ? num : min;
-      });
-
-      //round the lowest value down to the nearest 5
-      return Math.floor(exactMin / 5) * 5;
-    },
-    calcMaximum() {
-      //get the highest value to plot the maximum
-      const exactMax = this.valuesArray.reduce((max, num) => {
-        return num > max ? num : max;
-      });
-
-      //round the highest value up to the nearest 5
-      return Math.ceil(exactMax / 5) * 5;
-    },
     countriesData() {
       return this.$store.state.mortalityData;
-    },
-    valuesArray() {
-      //pull the life expectancy values out of the countries' lineChart objects
-      //to calculate minimum and maximum for all charts on the page
-      const array = [];
-      Object.keys(this.countriesData).forEach(country => {
-        const lineChart = this.countriesData[country].lineChart;
-
-        Object.keys(lineChart).forEach(year => {
-          const value = lineChart[year];
-          array.push(value);
-        });
-      });
-
-      return array;
     },
     regions() {
       return maps.regions;
@@ -189,6 +169,46 @@ export default {
         fatal: percentage,
         "non-fatal": 100 - percentage
       };
+    },
+    calcMinimum(lifeExpectancies) {
+      let exactMin;
+
+      Object.keys(lifeExpectancies).forEach(date => {
+        const lifeExpectancyValue = lifeExpectancies[date];
+
+        //set the exactMin to the first number if it is undefined
+        if (!exactMin) {
+          exactMin = lifeExpectancyValue;
+        }
+
+        //get the lowest value to plot the minimum
+        if (lifeExpectancyValue < exactMin) {
+          exactMin = lifeExpectancyValue;
+        }
+      });
+
+      //round the lowest value down to the nearest 5
+      return Math.floor(exactMin / 5) * 5;
+    },
+    calcMaximum(lifeExpectancies) {
+      let exactMax;
+
+      Object.keys(lifeExpectancies).forEach(date => {
+        const lifeExpectancyValue = lifeExpectancies[date];
+
+        //set the exactMin to the first number if it is undefined
+        if (!exactMax) {
+          exactMax = lifeExpectancyValue;
+        }
+
+        //get the lowest value to plot the minimum
+        if (lifeExpectancyValue > exactMax) {
+          exactMax = lifeExpectancyValue;
+        }
+      });
+
+      //round the highest value up to the nearest 5
+      return Math.ceil(exactMax / 5) * 5;
     },
     countryKey(key) {
       return maps.flagMap[key];
@@ -261,16 +281,24 @@ export default {
       padding: 6px 0;
     }
 
-    .flag {
+    .sort-arrows {
+      float: left;
+    }
+
+    .large-column {
+      width: 14%;
+    }
+
+    .medium-column {
+      width: 11%;
+    }
+
+    .small-column {
       width: 3%;
     }
 
-    .country {
-      width: 12%;
-    }
-
-    .number-data {
-      width: 10%;
+    .clickable {
+      cursor: pointer;
     }
   }
 

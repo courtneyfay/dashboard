@@ -48,7 +48,7 @@ export default {
 @import "../assets/global-styles.scss";
 .navbar-items {
   .logo {
-    border-bottom: solid $border-width $logo-border-color;
+    border-bottom: solid $border-width $dark-who-blue;
     height: 60px;
     width: 60px;
   }

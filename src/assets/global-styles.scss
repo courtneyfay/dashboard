@@ -1,7 +1,7 @@
 $background-color: #ebeef3;
 $border-width: 2px;
+$dark-who-blue: #185981;
 $font-family: Roboto, Helvetica, sans-serif;
-$logo-border-color: #185981;
 $table-header-color: #696969;
 $table-header-size: 14px;
 $title-border-color: #d3d3d3;
@@ -11,7 +11,7 @@ $white: #ffffff;
 $who-blue: #3499d8;
 
 .active-route {
-  background-color: $logo-border-color;
+  background-color: $dark-who-blue;
 }
 .light-bottom-border {
   border-bottom: solid $border-width $subtitle-border-color;
@@ -19,17 +19,3 @@ $who-blue: #3499d8;
 .dark-bottom-border {
   border-bottom: solid $border-width $title-border-color;
 }
-// .row {
-//   /* background-color: lightcoral; */
-//   display: flex;
-//   flex-direction: row;
-//   flex-wrap: wrap;
-//   width: 100%;
-// }
-// .column {
-//   /* background-color: yellow; */
-//   display: flex;
-//   flex-direction: column;
-//   flex-basis: 100%;
-//   flex: 1;
-// }
