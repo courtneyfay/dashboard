@@ -1,3 +1,15 @@
+$background-color: #ebeef3;
+$border-width: 2px;
+$white: #ffffff;
+$font-family: Roboto, sans-serif;
+$logo-border-color: #185981; //#2176ab;
+$title-border-color: #d3d3d3;
+$reset-background: #ffffff;
+$who-blue: #3499d8;
+
+.active-route {
+  background-color: $logo-border-color;
+}
 .left {
   justify-content: flex-start;
 }

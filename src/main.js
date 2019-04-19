@@ -5,8 +5,14 @@ import store from "./store";
 import formats from "./formats";
 import VueChartkick from "vue-chartkick";
 import Chart from "chart.js";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faMoneyBill,
+  faMedkit,
+  faBookReader
+} from "@fortawesome/free-solid-svg-icons";
 
-Vue.config.productionTip = false;
+library.add(faMoneyBill, faMedkit, faBookReader);
 
 const formatsPlugin = {
   install() {
@@ -17,6 +23,8 @@ const formatsPlugin = {
 
 Vue.use(formatsPlugin);
 Vue.use(VueChartkick, { adapter: Chart });
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,

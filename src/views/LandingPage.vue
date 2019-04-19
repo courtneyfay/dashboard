@@ -1,13 +1,13 @@
 <template>
-  <div class="economic">
-    <h1 class="page-title">Economic Data</h1>
+  <div class="landing">
+    <h1 class="page-title">World Health Organization Dashboard</h1>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @import "../assets/global-styles.scss";
 
-.economic {
+.landing {
   background-color: $background-color;
   min-width: 94vw;
 

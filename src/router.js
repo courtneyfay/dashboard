@@ -1,15 +1,25 @@
 import Vue from "vue";
 import Router from "vue-router";
-import HealthData from "./views/HealthData.vue";
+import LandingPage from "./views/LandingPage.vue";
 
 Vue.use(Router);
 
 export default new Router({
+  linkActiveClass: "active-route",
   routes: [
     {
       path: "/",
+      name: "Landing",
+      component: LandingPage
+    },
+    {
+      path: "/health",
       name: "HealthData",
-      component: HealthData
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "education" */ "./views/HealthData.vue")
     },
     {
       path: "/education",
