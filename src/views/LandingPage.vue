@@ -1,6 +1,8 @@
 <template>
   <div class="landing">
-    <h1 class="page-title">World Health Organization Dashboard</h1>
+    <h1 class="page-title dark-bottom-border">
+      World Health Organization Dashboard
+    </h1>
   </div>
 </template>
 
@@ -13,9 +15,8 @@
 
   .page-title {
     background-color: $reset-background;
-    border-bottom: solid $border-width $title-border-color;
     display: flex;
-    margin: 0 auto;
+    margin: 0;
     padding: 11px;
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="dropdown">
-    <select @input="emit" v-model="selected">
+  <div class="single-select-dropdown">
+    <select @input="emit" v-model="selected" name="dropdown">
       <option v-for="(option, key) in options" :key="key" :value="key">
         {{ option }}
       </option>

@@ -1,17 +1,16 @@
 <template>
   <div>
-    <div class="row">
-      <h3 class="column">Adult Mortality Rates for 2016 By Region</h3>
-      <div class="column">
-        <div class="row">
-          <span class="column">Regions:</span>
-          <dropdown
-            class="column"
-            :options="regions"
-            :value="'TEA'"
-            @update="updateRegion"
-          />
-        </div>
+    <div class="mortality-header light-bottom-border">
+      <h2 class="table-title">Adult Mortality Rates for 2016 By Region</h2>
+      <div class="dropdown-controls">
+        <label for="dropdown" class="dropdown-label"></label>
+        Regions:
+        <dropdown
+          class="dropdown"
+          :options="regions"
+          :value="'TEA'"
+          @update="updateRegion"
+        />
       </div>
     </div>
 
@@ -20,51 +19,49 @@
         <tr class="headers">
           <th class="flag"></th>
           <th @click="sortData(COUNTRY)" class="country">
-            Country
+            COUNTRY
             <sort-arrows v-if="sortBy === COUNTRY" :ascending="ascending" />
           </th>
           <th @click="sortData(LIFE_EXPECTANCY)" class="number-data">
-            Life Expectancy at Birth
+            LIFE EXPECTANCY
+            <div>(in years)</div>
             <sort-arrows
               v-if="sortBy === LIFE_EXPECTANCY"
               :ascending="ascending"
             />
           </th>
-          <th class="life-expectancy"></th>
+          <th class="life-expectancy">
+            LIFE EXPECTANCY
+            <div>(1960 - 2016)</div>
+          </th>
           <th @click="sortData(DISEASE)" class="number-data">
-            Mortality from CVD, Cancer, Diabetes or CRD
+            CVD, CANCER, DIABETES, CRD
+            <div>(%)</div>
             <sort-arrows v-if="sortBy === DISEASE" :ascending="ascending" />
           </th>
           <th @click="sortData(AIR_POLLUTION)" class="number-data">
-            Mortality from Air Pollution
+            AIR POLLUTION
+            <div>(per 100,000)</div>
             <sort-arrows
               v-if="sortBy === AIR_POLLUTION"
               :ascending="ascending"
             />
           </th>
           <th @click="sortData(HYGIENE)" class="number-data">
-            Mortality from Unsafe Water, Sanitation, and Lack of Hygiene
+            SANITATION
+            <div>(per 100,000)</div>
             <sort-arrows v-if="sortBy === HYGIENE" :ascending="ascending" />
           </th>
           <th @click="sortData(POISON)" class="number-data">
-            Mortality from Poisoning
+            POISONING
+            <div>(per 100,000)</div>
             <sort-arrows v-if="sortBy === POISON" :ascending="ascending" />
           </th>
           <th @click="sortData(SUICIDE)" class="number-data">
-            Mortality from Suicide
+            SUICIDE
+            <div>(per 100,000)</div>
             <sort-arrows v-if="sortBy === SUICIDE" :ascending="ascending" />
           </th>
-        </tr>
-        <tr class="sub-headers">
-          <th></th>
-          <th></th>
-          <th>(in years)</th>
-          <th></th>
-          <th>(%)</th>
-          <th>(per 100,000)</th>
-          <th>(per 100,000)</th>
-          <th>(per 100,000)</th>
-          <th>(per 100,000)</th>
         </tr>
       </thead>
       <tbody v-if="!countriesData || this.isLoading">
@@ -230,27 +227,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/global-styles.scss";
+
+.mortality-header {
+  display: flex;
+  justify-content: space-between;
+
+  .table-title {
+    margin: 0;
+    padding: 11px;
+  }
+
+  .dropdown-controls {
+    align-items: center;
+    display: flex;
+
+    .dropdown {
+      padding: 11px;
+    }
+  }
+}
+
 .mortality-table {
   width: 100%;
 
   .headers {
-    background-color: lightblue;
+    color: $table-header-color;
+    font-size: $table-header-size;
+    font-weight: normal;
+
+    th {
+      border-bottom: solid $border-width $subtitle-border-color;
+      padding: 6px 0;
+    }
 
     .flag {
-      width: 5%;
+      width: 3%;
     }
 
     .country {
-      width: 15%;
+      width: 12%;
     }
 
     .number-data {
       width: 10%;
     }
-  }
-
-  .sub-headers {
-    background-color: lightblue;
   }
 
   .data {

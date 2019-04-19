@@ -1,7 +1,7 @@
 <template>
   <div class="health">
-    <h1 class="page-title">Health Data</h1>
-    <mortality-table class="table"/>
+    <h1 class="page-title dark-bottom-border">Health Data</h1>
+    <mortality-table class="table" />
   </div>
 </template>
 
@@ -27,9 +27,8 @@ export default {
 
   .page-title {
     background-color: $reset-background;
-    border-bottom: solid $border-width $title-border-color;
     display: flex;
-    margin: 0 auto;
+    margin: 0;
     padding: 11px;
   }
 

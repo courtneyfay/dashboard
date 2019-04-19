@@ -1,6 +1,6 @@
 <template>
   <div class="economic">
-    <h1 class="page-title">Economic Data</h1>
+    <h1 class="page-title dark-bottom-border">Economic Data</h1>
   </div>
 </template>
 
@@ -13,9 +13,8 @@
 
   .page-title {
     background-color: $reset-background;
-    border-bottom: solid $border-width $title-border-color;
     display: flex;
-    margin: 0 auto;
+    margin: 0;
     padding: 11px;
   }
 }
