@@ -12,22 +12,21 @@ export default new Vuex.Store({
     mortalityData: ""
   },
   mutations: {
-    updateMortalityData(state, status) {
-      state.mortalityData = status;
+    updateMortalityData(state, data) {
+      state.mortalityData = data;
     }
   },
   actions: {
-    requestMortalityData({ commit }, region = "TEA") {
+    async requestMortalityData({ commit }, region = "TEA") {
       const url = `${baseUrl}/health/mortality/${region}`;
 
-      axios
-        .get(url)
-        .then(response => {
-          commit("updateMortalityData", response.data);
-        })
-        .catch(err => {
-          throw new Error(err);
-        });
+      try {
+        const response = await axios.get(url);
+
+        commit("updateMortalityData", response.data);
+      } catch (err) {
+        throw new Error(err);
+      }
     }
   }
 });

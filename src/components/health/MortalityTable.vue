@@ -67,7 +67,14 @@
           <th>(per 100,000)</th>
         </tr>
       </thead>
-      <tbody v-if="countriesData">
+      <tbody v-if="!countriesData || this.isLoading">
+        <tr>
+          <td colspan="9">
+            <img src="../../assets/loader.gif" alt="This content is loading" />
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
         <tr v-for="(country, key) in countriesData" :key="key" class="data">
           <td>
             <img
@@ -75,7 +82,7 @@
               :src="
                 `https://www.countryflags.io/${countryKey(key)}/flat/32.png`
               "
-              :alt="country.name"
+              :alt="`${country.name} flag`"
             />
           </td>
           <td>{{ country.name }}</td>
@@ -102,13 +109,6 @@
           <td class="indent">{{ $formats.checkNulls(country.hygiene) }}</td>
           <td class="indent">{{ $formats.checkNulls(country.poisoning) }}</td>
           <td class="indent">{{ $formats.checkNulls(country.suicide) }}</td>
-        </tr>
-      </tbody>
-      <tbody v-else>
-        <tr>
-          <td colspan="9">
-            <img src="../../assets/loader.gif" alt="This content is loading" />
-          </td>
         </tr>
       </tbody>
     </table>
@@ -139,8 +139,9 @@ export default {
       HYGIENE: "hygiene",
       POISON: "poisoning",
       SUICIDE: "suicide",
+      ascending: true,
       sortBy: "name",
-      ascending: true
+      isLoading: false
     };
   },
   computed: {
@@ -212,14 +213,17 @@ export default {
 
       this.$store.commit("updateMortalityData", sortedData);
     },
-    updateRegion(region) {
-      //turn on loader
-      this.$store.dispatch("requestMortalityData", region).then(() => {
-        //reset sort arrows
+    async updateRegion(region) {
+      this.isLoading = true;
+
+      try {
+        await this.$store.dispatch("requestMortalityData", region);
+        this.isLoading = false;
         this.sortBy = "name";
         this.ascending = true;
-        //turn off loader
-      });
+      } catch (err) {
+        throw new Error(err);
+      }
     }
   }
 };
