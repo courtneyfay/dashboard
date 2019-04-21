@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mortality-header light-bottom-border">
-      <h2 class="table-title">Adult Mortality Rates for 2016 By Region</h2>
+      <h2 class="section-title">Adult Mortality Rates for 2016 By Region</h2>
       <div class="dropdown-controls">
         <label for="dropdown" class="dropdown-label"></label>
         Regions:
@@ -84,7 +84,7 @@
           </td>
         </tr>
       </tbody>
-      <tbody v-else>
+      <tbody v-else :class="scrollableClass">
         <tr v-for="(country, key) in countriesData" :key="key" class="data">
           <td>
             <img
@@ -95,10 +95,8 @@
               :alt="`${country.name} flag`"
             />
           </td>
-          <td>{{ country.name }}</td>
-          <td class="indent">
-            {{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}
-          </td>
+          <td class="left-justify">{{ country.name }}</td>
+          <td>{{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}</td>
           <td>
             <line-graph
               :values="country.lineChart"
@@ -106,19 +104,28 @@
               :maximum="calcMaximum(country.lineChart)"
             />
           </td>
-          <td class="indent">
+          <td class="medium-column">
             <div v-if="country.disease">
-              <pie-chart :percentages="calcPiePercentages(country.disease)" />
-              <span>{{ $formats.addPercent(country.disease) }}</span>
+              <pie-chart
+                class="center-justify"
+                :percentages="calcPiePercentages(country.disease)"
+              />
+              <div>{{ $formats.addPercent(country.disease) }}</div>
             </div>
             <div v-else>--</div>
           </td>
-          <td class="indent">
+          <td class="medium-column">
             {{ $formats.checkNulls(country.airPollution) }}
           </td>
-          <td class="indent">{{ $formats.checkNulls(country.hygiene) }}</td>
-          <td class="indent">{{ $formats.checkNulls(country.poisoning) }}</td>
-          <td class="indent">{{ $formats.checkNulls(country.suicide) }}</td>
+          <td class="medium-column">
+            {{ $formats.checkNulls(country.hygiene) }}
+          </td>
+          <td class="medium-column">
+            {{ $formats.checkNulls(country.poisoning) }}
+          </td>
+          <td class="medium-column">
+            {{ $formats.checkNulls(country.suicide) }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -160,6 +167,11 @@ export default {
     },
     regions() {
       return maps.regions;
+    },
+    scrollableClass() {
+      return this.countriesData && Object.keys(this.countriesData).length > 4
+        ? "scrollable"
+        : "null";
     }
   },
   methods: {
@@ -253,11 +265,6 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  .table-title {
-    margin: 0;
-    padding: 11px;
-  }
-
   .dropdown-controls {
     align-items: center;
     display: flex;
@@ -269,10 +276,17 @@ export default {
 }
 
 .mortality-table {
+  border-collapse: border;
+  table-layout: fixed;
   width: 100%;
+
+  .medium-column {
+    width: 11%;
+  }
 
   .headers {
     color: $table-header-color;
+    display: block;
     font-size: $table-header-size;
     font-weight: normal;
 
@@ -289,10 +303,6 @@ export default {
       width: 14%;
     }
 
-    .medium-column {
-      width: 11%;
-    }
-
     .small-column {
       width: 3%;
     }
@@ -302,12 +312,11 @@ export default {
     }
   }
 
-  .data {
-    text-align: left;
-
-    .indent {
-      padding-left: 3%;
-    }
+  .scrollable {
+    display: block;
+    overflow-y: auto;
+    height: 600px;
+    width: 100%;
   }
 }
 </style>

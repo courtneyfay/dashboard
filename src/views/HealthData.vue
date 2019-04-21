@@ -1,16 +1,19 @@
 <template>
   <div class="health">
     <h1 class="page-title dark-bottom-border">Health Data</h1>
+    <new-health-component class="new" />
     <mortality-table class="table" />
   </div>
 </template>
 
 <script>
 import MortalityTable from "../components/health/MortalityTable";
+import NewHealthComponent from "../components/health/NewHealthComponent";
 
 export default {
   components: {
-    MortalityTable
+    MortalityTable,
+    NewHealthComponent
   },
   beforeMount() {
     this.$store.dispatch("requestMortalityData", "TEA");
@@ -33,6 +36,11 @@ export default {
   }
 
   .table {
+    background-color: $white;
+    margin: 30px;
+  }
+
+  .new {
     background-color: $white;
     margin: 30px;
   }

@@ -19,3 +19,14 @@ $who-blue: #3499d8;
 .dark-bottom-border {
   border-bottom: solid $border-width $title-border-color;
 }
+.left-justify {
+  text-align: left;
+}
+.center-justify {
+  display: inline-block;
+  text-align: center;
+}
+.section-title {
+  margin: 0;
+  padding: 11px;
+}

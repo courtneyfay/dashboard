@@ -1,7 +1,7 @@
 <template>
   <pie-chart
     :data="percentages"
-    :colors="['#b00', '#666']"
+    :colors="['#3499d8', '#185981']"
     :legend="false"
     :library="{ tooltips: { enabled: false } }"
     height="30px"
