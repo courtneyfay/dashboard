@@ -24,7 +24,10 @@
               :sortedBy="sortBy === COUNTRY"
             />COUNTRY
           </th>
-          <th @click="sortData(LIFE_EXPECTANCY)" class="large-column clickable">
+          <th
+            @click="sortData(LIFE_EXPECTANCY)"
+            class="medium-column clickable"
+          >
             <sort-arrows
               class="sort-arrows"
               :ascending="ascending"
@@ -36,14 +39,14 @@
             LIFE EXPECTANCY
             <div>(1960 - 2016)</div>
           </th>
-          <th @click="sortData(DISEASE)" class="large-column clickable">
+          <th @click="sortData(DISEASE)" class="medium-column clickable">
             <sort-arrows
               class="sort-arrows"
               :ascending="ascending"
               :sortedBy="sortBy === DISEASE"
             />CVD, CANCER, DIABETES, CRD
           </th>
-          <th @click="sortData(AIR_POLLUTION)" class="large-column clickable">
+          <th @click="sortData(AIR_POLLUTION)" class="medium-column clickable">
             <sort-arrows
               class="sort-arrows"
               :ascending="ascending"
@@ -77,15 +80,23 @@
           </th>
         </tr>
       </thead>
-      <tbody v-if="!countriesData || this.isLoading">
+      <tbody class="full-width" v-if="!countriesData || this.isLoading">
         <tr>
           <td colspan="9">
-            <img src="../../assets/loader.gif" alt="This content is loading" />
+            <img
+              src="../../assets/loader.gif"
+              alt="This content is loading"
+              class="center"
+            />
           </td>
         </tr>
       </tbody>
       <tbody v-else :class="scrollableClass">
-        <tr v-for="(country, key) in countriesData" :key="key" class="data">
+        <tr
+          v-for="(country, key) in countriesData"
+          :key="key"
+          class="medium-column"
+        >
           <td>
             <img
               v-if="countryKey(key)"
@@ -95,10 +106,13 @@
               :alt="`${country.name} flag`"
             />
           </td>
-          <td class="left-justify">{{ country.name }}</td>
-          <td>{{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}</td>
+          <td class="left-justify medium-column">{{ country.name }}</td>
+          <td class="medium-column">
+            {{ $formats.roundToTwoDecimals(country.lifeExpectancy) }}
+          </td>
           <td>
             <line-graph
+              class="life-expectancy"
               :values="country.lineChart"
               :minimum="calcMinimum(country.lineChart)"
               :maximum="calcMaximum(country.lineChart)"
@@ -276,12 +290,16 @@ export default {
 }
 
 .mortality-table {
-  border-collapse: border;
+  border-collapse: collapse;
   table-layout: fixed;
   width: 100%;
 
   .medium-column {
-    width: 11%;
+    width: 10%;
+  }
+
+  .life-expectancy {
+    width: 25%;
   }
 
   .headers {
@@ -299,10 +317,6 @@ export default {
       float: left;
     }
 
-    .large-column {
-      width: 14%;
-    }
-
     .small-column {
       width: 3%;
     }
@@ -312,11 +326,24 @@ export default {
     }
   }
 
+  .full-width {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   .scrollable {
     display: block;
     overflow-y: auto;
     height: 600px;
     width: 100%;
+
+    tr:nth-child(even) {
+      background-color: $background-color;
+    }
+    tr:nth-child(odd) {
+      background-color: $reset-background;
+    }
   }
 }
 </style>

@@ -6,7 +6,7 @@
     :max="maximum"
     height="80px"
     :library="options"
-    width="100%"
+    width="330px"
   ></line-chart>
 </template>
 
