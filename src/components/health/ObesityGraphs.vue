@@ -14,12 +14,12 @@
       />
       <div class="toggles">
         <toggle-button
-          @update="updateGenderSelection"
-          :options="[MALE, FEMALE]"
-        />
-        <toggle-button
           @update="updateRankingSelection"
           :options="[HIGHEST, LOWEST]"
+        />
+        <toggle-button
+          @update="updateGenderSelection"
+          :options="[MALE, FEMALE]"
         />
       </div>
       <horizontal-bar-chart
