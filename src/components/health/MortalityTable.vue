@@ -83,11 +83,7 @@
       <tbody class="full-width" v-if="!countriesData || this.isLoading">
         <tr>
           <td colspan="9">
-            <img
-              src="../../assets/loader.gif"
-              alt="This content is loading"
-              class="center"
-            />
+            <img src="../../assets/loader.gif" alt="This content is loading" />
           </td>
         </tr>
       </tbody>

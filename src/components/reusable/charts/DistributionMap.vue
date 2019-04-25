@@ -1,8 +1,11 @@
 <template>
   <div class="map">
     <h3>{{ title }}</h3>
-    <!-- <geo-chart :data="data" ></geo-chart> -->
-    <!-- adapter="google" -->
+    <geo-chart
+      :data="data"
+      :colors="['#3499d8', '#185981']"
+      adapter="google"
+    ></geo-chart>
   </div>
 </template>
 
@@ -23,7 +26,6 @@ export default {
 
 <style lang="scss" scoped>
 .map {
-  border: solid 1px red;
   height: 91%;
   width: 40%;
 }

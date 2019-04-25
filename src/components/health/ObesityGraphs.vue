@@ -3,15 +3,24 @@
     <div class="obesity-header">
       <h2 class="section-title light-bottom-border">{{ obesityTitle }}</h2>
     </div>
-    <div class="white content">
+    <div v-if="!obesityData || this.isLoading">
+      <img src="../../assets/loader.gif" alt="This content is loading" />
+    </div>
+    <div v-else class="white content">
       <distribution-map
         class="distribution-map"
         :title="mapTitle"
         :data="obesityData"
       />
       <div class="toggles">
-        <toggle-button />
-        <toggle-button />
+        <toggle-button
+          @update="updateGenderSelection"
+          :options="[MALE, FEMALE]"
+        />
+        <toggle-button
+          @update="updateRankingSelection"
+          :options="[HIGHEST, LOWEST]"
+        />
       </div>
       <horizontal-bar-chart
         class="bar-chart"
@@ -32,9 +41,13 @@ export default {
     return {
       chartTitle: "Country Ranking By Percentage",
       mapTitle: "Distribution Map",
-      //TODO: change these with the toggle buttons
       isHighest: true,
-      isMale: true
+      isMale: true,
+      isLoading: false,
+      MALE: "Male",
+      FEMALE: "Female",
+      HIGHEST: "Highest",
+      LOWEST: "Lowest"
     };
   },
   components: {
@@ -42,23 +55,20 @@ export default {
     HorizontalBarChart,
     ToggleButton
   },
+  methods: {
+    updateGenderSelection(e) {
+      this.isMale = e === this.MALE ? true : false;
+    },
+    updateRankingSelection(e) {
+      this.isHighest = e === this.HIGHEST ? true : false;
+    }
+  },
   computed: {
     obesityTitle() {
-      let amplitude, gender;
+      const ranking = this.isHighest ? this.HIGHEST : this.LOWEST;
+      const gender = this.isMale ? "Males" : "Females";
 
-      if (this.isHighest) {
-        amplitude = "Highest";
-      } else {
-        amplitude = "Lowest";
-      }
-
-      if (this.isMale) {
-        gender = "Males";
-      } else {
-        gender = "Females";
-      }
-
-      return `Countries with ${amplitude} Adult Overweight Populations In ${gender} For 2016`;
+      return `Countries with ${ranking} Adult Overweight Populations In ${gender} For 2016`;
     },
     obesityData() {
       const raw = this.$store.state.obesityData;
