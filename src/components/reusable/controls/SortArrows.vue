@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/global-styles.scss";
+@import "../../../assets/global-styles.scss";
 
 .asc-arrow {
   //triangle pointing down

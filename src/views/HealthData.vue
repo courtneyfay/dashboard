@@ -1,22 +1,23 @@
 <template>
   <div class="health">
     <h1 class="page-title dark-bottom-border">Health Data</h1>
-    <new-health-component class="new" />
+    <obesity-graphs class="graphs" />
     <mortality-table class="table" />
   </div>
 </template>
 
 <script>
 import MortalityTable from "../components/health/MortalityTable";
-import NewHealthComponent from "../components/health/NewHealthComponent";
+import ObesityGraphs from "../components/health/ObesityGraphs";
 
 export default {
   components: {
     MortalityTable,
-    NewHealthComponent
+    ObesityGraphs
   },
   beforeMount() {
     this.$store.dispatch("requestMortalityData", "TEA");
+    this.$store.dispatch("requestObesityData");
   }
 };
 </script>
@@ -40,7 +41,7 @@ export default {
     margin: 30px;
   }
 
-  .new {
+  .graphs {
     background-color: $white;
     margin: 30px;
   }

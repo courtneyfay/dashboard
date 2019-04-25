@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mortality-header light-bottom-border">
-      <h2 class="section-title">Adult Mortality Rates for 2016 By Region</h2>
+      <h2 class="section-title">Adult Mortality Rates By Region For 2016</h2>
       <div class="dropdown-controls">
         <label for="dropdown" class="dropdown-label"></label>
         Regions:
@@ -147,12 +147,12 @@
 </template>
 
 <script>
-import Dropdown from "../reusable/SingleSelectDropdown";
+import Dropdown from "../reusable/controls/SingleSelectDropdown";
 import maps from "../../maps";
-import LineGraph from "../reusable/LineGraph";
+import LineGraph from "../reusable/charts/LineGraph";
 import orderBy from "lodash.orderby";
-import PieChart from "../reusable/PieChart";
-import SortArrows from "../reusable/SortArrows";
+import PieChart from "../reusable/charts/PieChart";
+import SortArrows from "../reusable/controls/SortArrows";
 
 export default {
   components: {

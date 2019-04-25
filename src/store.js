@@ -9,11 +9,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    mortalityData: ""
+    mortalityData: {},
+    obesityData: []
   },
   mutations: {
     updateMortalityData(state, data) {
       state.mortalityData = data;
+    },
+    updateObesityData(state, data) {
+      state.obesityData = data;
     }
   },
   actions: {
@@ -24,6 +28,17 @@ export default new Vuex.Store({
         const response = await axios.get(url);
 
         commit("updateMortalityData", response.data);
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async requestObesityData({ commit }) {
+      const url = `${baseUrl}/health/nutrition`;
+
+      try {
+        const response = await axios.get(url);
+
+        commit("updateObesityData", response.data);
       } catch (err) {
         throw new Error(err);
       }
